@@ -26,8 +26,8 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     @Query(value = "SELECT "
                 + " new com.example.personio.interview.modules.hrmanager.models.EmployeeSkipManager(man.empName AS manager,skip_man.empName AS skip_manager) "
                 + " FROM Employee emp "
-                + " INNER JOIN Employee man ON emp.managerId = man.empId "
-                + " INNER JOIN Employee skip_man ON man.managerId = skip_man.empId "
+                + " LEFT JOIN Employee man ON emp.managerId = man.empId "
+                + " LEFT JOIN Employee skip_man ON man.managerId = skip_man.empId "
                 + " WHERE emp.empName = ?1")
     public List<EmployeeSkipManager> getEmployeeManagerAndSkipManager(String empName);
 }

@@ -1,6 +1,5 @@
 package com.example.personio.interview.exceptions;
 
-import org.apache.tomcat.util.ExceptionUtils;
 import org.springframework.http.HttpStatus;
 
 public class PersonioCustomException extends RuntimeException {
