@@ -1,0 +1,38 @@
+version: '3.1'
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    container_name: personio_interview_app
+    ports:
+      - '9090:8080'
+    networks:
+      - employee-mysql
+    depends_on:
+      - db
+    restart: always
+    environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://personio_interview_db:3306/personio
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD:
+
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    container_name: personio_interview_db
+    networks:
+      - employee-mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_DATABASE: personio
+    ports:
+      - "3307:3306"
+    volumes:
+      - "db-data:/var/lib/mysql"
+      - "./migrations:/docker-entrypoint-initdb.d"
+volumes:
+  db-data:
+networks:
+  employee-mysql: 

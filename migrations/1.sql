@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS `employee` (
+    `emp_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `emp_name` VARCHAR(50) UNIQUE NOT NULL,
+    `manager_id` INT UNSIGNED DEFAULT NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`emp_id`),
+    CONSTRAINT `fk_emp_id_manager_id` FOREIGN KEY (`manager_id`) REFERENCES `employee` (`emp_id`) 
+)ENGINE=INNODB;
