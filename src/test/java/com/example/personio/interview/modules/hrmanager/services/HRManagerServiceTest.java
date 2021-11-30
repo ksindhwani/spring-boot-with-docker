@@ -204,7 +204,7 @@ public class HRManagerServiceTest {
 	public void testSaveEmployee_ValidEmployee_AllNewRecords_shouldPass() {
 		String inputEmployeeJson = "{\n\t\"Pete\": \"Nick\",\n\t\"Barbara\": \"Nick\",\n\t\"Nick\": \"Sophie\",\n\t\"Sophie\": \"Jonas\"\n}";
 		Map<String,String> empManagerMap = getEmployeeManagerMap();
-		Response mockResponse = new Response(true,HttpStatus.CREATED,null,null,null);
+		Response mockResponse = new Response(true,HttpStatus.CREATED,null,null,null,null);
 		doNothing().when(processor).checkForMultipleRoots(any());
 		Mockito.when(processor.createEmpManagerMap(any())).thenReturn(empManagerMap);
 		doNothing().when(processor).checkForLoops(any());
@@ -224,7 +224,7 @@ public class HRManagerServiceTest {
 	public void testSaveEmployee_ValidEmployee_ManagerAlreadyExists_shouldPass() {
 		String inputEmployeeJson = "{\n\t\"Pete\": \"Nick\",\n\t\"Barbara\": \"Nick\",\n\t\"Nick\": \"Sophie\",\n\t\"Sophie\": \"Jonas\"\n}";
 		Map<String,String> empManagerMap = getEmployeeManagerMap();
-		Response mockResponse = new Response(true,HttpStatus.CREATED,null,null,null);
+		Response mockResponse = new Response(true,HttpStatus.CREATED,null,null,null,null);
 		doNothing().when(processor).checkForMultipleRoots(any());
 		Mockito.when(processor.createEmpManagerMap(any())).thenReturn(empManagerMap);
 		doNothing().when(processor).checkForLoops(any());

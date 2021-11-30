@@ -24,7 +24,6 @@ class HRManagerControllerTest {
 	public static final String MOCK_HIERARCHY_RETURN_FROM_HR_SERVICE = "{\"Jonas\":{\"Sophie\":{\"Nick\":{\"Pete\":{},\"Barbara\":{}}}}}";
 	public static final String SELF_LOOP_HIERARCHY_ERR_MESSAGE = "The given json hierarchy has self loop for employee Pete";
 	private static final String MULTIPLE_ROOTS_ERR_MESSAGE = "The given json has multiple roots has multiple roots";
-	private static final String LOOP_HIERARCHY_ERR_MESSAGE = "The given json has hierarchy loop for employees %s and %s";
 
 	private HRManagerController hrManagerController;
 
@@ -83,7 +82,7 @@ class HRManagerControllerTest {
 	@Test
 	public void testCreateEmployee_ValidEmployee_returnSuccessResponse() {
 		String inputEmployeeJson = "{\n\t\"Pete\": \"Nick\",\n\t\"Barbara\": \"Nick\",\n\t\"Nick\": \"Sophie\",\n\t\"Sophie\": \"Jonas\"\n}";
-		Response mockSuccessResponse = new Response(true,HttpStatus.CREATED,null,null,null);
+		Response mockSuccessResponse = new Response(true,HttpStatus.CREATED,null,null,null,null);
 		Mockito.when(hrManagerService.saveEmployees(any())).thenReturn(mockSuccessResponse);
 		ResponseEntity<?> expected = new ResponseEntity<>(mockSuccessResponse, HttpStatus.CREATED);
 		ResponseEntity<?> actual = hrManagerController.createEmployees(inputEmployeeJson);
@@ -95,7 +94,9 @@ class HRManagerControllerTest {
 	public void testCreateEmployee_MultipleTopManagersEmployee_returnFailedResponse() {
 		String inputEmployeeJson = "{\n\t\"Pete\": \"Nick\",\n\t\"Sophie\": \"Jonas\"\n}";
 		Response mockFailedResponse = new Response(
-			false,HttpStatus.BAD_REQUEST,
+			false,
+			HttpStatus.BAD_REQUEST,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
 			MULTIPLE_ROOTS_ERR_MESSAGE,
 			MULTIPLE_ROOTS_ERR_MESSAGE,
 			inputEmployeeJson
@@ -118,6 +119,7 @@ class HRManagerControllerTest {
 			HttpStatus.BAD_REQUEST,
 			MULTIPLE_ROOTS_ERR_MESSAGE,
 			MULTIPLE_ROOTS_ERR_MESSAGE,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
 			inputEmployeeJson
 		);
 		Mockito.when(hrManagerService.saveEmployees(any())).thenReturn(mockFailedResponse);
@@ -134,9 +136,11 @@ class HRManagerControllerTest {
 	public void testCreateEmployee_ImmediateLoopHierarchyEmployee_returnFailedResponse() {
 		String inputEmployeeJson = "{\n\t\"Pete\": \"Nick\",\n\t\"Barbara\": \"Nick\",\n\t\"Nick\": \"Pete\"\n}";
 		Response mockFailedResponse = new Response(
-			false,HttpStatus.BAD_REQUEST,
-			String.format(LOOP_HIERARCHY_ERR_MESSAGE,"Nick","Pete"),
-			String.format(LOOP_HIERARCHY_ERR_MESSAGE,"Nick","Pete"),
+			false,
+			HttpStatus.BAD_REQUEST,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
 			inputEmployeeJson
 		);
 		Mockito.when(hrManagerService.saveEmployees(any())).thenReturn(mockFailedResponse);
@@ -153,9 +157,11 @@ class HRManagerControllerTest {
 	public void testCreateEmployee_SkipLoopHierarchyEmployee_returnFailedResponse() {
 		String inputEmployeeJson = "{\n\t\"Pete\": \"Nick\",\n\t\"Barbara\": \"Nick\",\n\t\"Nick\" : \"Sophie\",\n\t\"Sohpie\" : \"Pete\"\n}";
 		Response mockFailedResponse = new Response(
-			false,HttpStatus.BAD_REQUEST,
-			String.format(LOOP_HIERARCHY_ERR_MESSAGE,"Sohpie","Pete"),
-			String.format(LOOP_HIERARCHY_ERR_MESSAGE,"Sohpie","Pete"),
+			false,
+			HttpStatus.BAD_REQUEST,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
 			inputEmployeeJson
 		);
 		Mockito.when(hrManagerService.saveEmployees(any())).thenReturn(mockFailedResponse);
@@ -172,9 +178,11 @@ class HRManagerControllerTest {
 	public void testCreateEmployee_SelfLoopHierarchyEmployee_returnFailedResponse() {
 		String inputEmployeeJson = "{\n\t\"Pete\": \"Pete\",\n\t\"Barbara\": \"Nick\"\n}";
 		Response mockFailedResponse = new Response(
-			false,HttpStatus.BAD_REQUEST,
-			SELF_LOOP_HIERARCHY_ERR_MESSAGE,
-			SELF_LOOP_HIERARCHY_ERR_MESSAGE,
+			false,
+			HttpStatus.BAD_REQUEST,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
+			MULTIPLE_ROOTS_ERR_MESSAGE,
 			inputEmployeeJson
 		);
 		Mockito.when(hrManagerService.saveEmployees(any())).thenReturn(mockFailedResponse);

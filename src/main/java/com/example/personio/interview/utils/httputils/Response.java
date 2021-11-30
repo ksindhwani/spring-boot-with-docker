@@ -14,6 +14,7 @@ public class Response {
     private HttpStatus httpStatus;
     private String errMessage;
     private String customErrMessage;
+    private Object errCause;
     private Object data;
 
     public Response(
@@ -21,6 +22,7 @@ public class Response {
         HttpStatus httpStatus,
         String errMessage,
         String customErrMessage,
+        Object errCause,
         Object data
     ) {
         timestamp = new Date();
@@ -28,6 +30,7 @@ public class Response {
         this.httpStatus = httpStatus;
         this.errMessage = errMessage;
         this.customErrMessage = customErrMessage;
+        this.errCause = errCause;
         this.data = data;
     }
 
@@ -51,6 +54,10 @@ public class Response {
         return customErrMessage;
     }
 
+    public Object getErrCause() {
+        return errCause;
+    }
+    
     public Object getData() {
         return data;
     }

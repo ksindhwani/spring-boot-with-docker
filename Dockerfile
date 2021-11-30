@@ -20,7 +20,7 @@ RUN chmod 755 /app/mvnw
 RUN ./mvnw dependency:go-offline -B
 
 #Creating application .jar
-RUN ./mvnw package
+RUN ./mvnw package -DskipTests
 
 RUN  ls -al
 ENTRYPOINT [ "java","-jar","target/personio-interview.jar" ]

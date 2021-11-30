@@ -15,7 +15,12 @@ public class PersonioCustomExceptionHandler extends ResponseEntityExceptionHandl
     public final ResponseEntity<?> handlePersonioCustomExceptions(PersonioCustomException ex) 
     {
         Response exceptionResponse = new Response(
-            false,ex.getHttpStatus(),ex.getErrorMessage(),ex.getCustomerErrorMessage(),ex.getResponseData());
+            false,
+            ex.getHttpStatus(),
+            ex.getErrorMessage(),
+            ex.getCustomerErrorMessage(),
+            ex.getErrorCause(),
+            ex.getResponseData());
         return new ResponseEntity<>(exceptionResponse, ex.getHttpStatus());
     }    
 }

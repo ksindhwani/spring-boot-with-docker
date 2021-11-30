@@ -20,7 +20,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
                 + " INNER JOIN Employee man ON emp.managerId = man.empId")
     public List<EmployeeManagerDbModel> getAllManagerSubordinates();
 
-    @Query(value = "SELECT * from Employee emp where emp.manager_id is NULL", nativeQuery = true)
+    @Query(value = "SELECT emp FROM Employee emp WHERE emp.managerId is NULL")
     public List<Employee> getEmployeeWithManagerIdNull();
 
     @Query(value = "SELECT "

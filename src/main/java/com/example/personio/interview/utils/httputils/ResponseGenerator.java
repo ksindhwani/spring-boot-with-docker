@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class ResponseGenerator {
 
     public Response successResponse(HttpStatus httpStatus) {
-        Response response = new Response(true,httpStatus,null,null,null);
+        Response response = new Response(true,httpStatus,null,null,null,null);
         return response;
     }
 
@@ -19,6 +19,7 @@ public class ResponseGenerator {
             ex.getHttpStatus(),
             ex.getErrorMessage(),
             ex.getCustomerErrorMessage(),
+            ex.getErrorCause(),
             ex.getResponseData()
         );
     } 

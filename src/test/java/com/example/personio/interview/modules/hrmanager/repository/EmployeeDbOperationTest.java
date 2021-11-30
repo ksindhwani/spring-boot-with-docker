@@ -91,8 +91,6 @@ public class EmployeeDbOperationTest {
 		Mockito.when(employeeRepository.save(any())).thenReturn(mockEmp);
 		int actual = employeeDbOperation.saveEmployee(empName, 2);
 		assertEquals(1, actual);
-
-		// TODO: assert scenario
 	}
 
 	@Test
